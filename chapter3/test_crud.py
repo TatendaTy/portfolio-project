@@ -41,6 +41,7 @@ def test_get_new_performances(db_session):
     '''Tests that the count of performances in the database is what is expected'''
     performances = crud.get_performances(db_session, skip=0, limit=18000,
                                         min_last_changed_date=test_date)
+    assert len(performances) == 2711
     
 # test the count functions
 def test_get_player_count(db_session):
