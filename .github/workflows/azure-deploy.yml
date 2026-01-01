@@ -39,9 +39,19 @@ jobs:
                       ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
                       ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-            - name: Deploy to Azure Web App
-              uses: azure/webapps-deploy@v3
+            - name: Azure CLI Login
+              uses: azure/login@v1
               with:
-                  app-name: ${{ env.AZURE_WEBAPP_NAME }}
-                  publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-                  images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+                  creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+            - name: Deploy Container to Azure Web App
+              run: |
+                  az webapp config container set \
+                    --name ${{ env.AZURE_WEBAPP_NAME }} \
+                    --resource-group ${{ env.RESOURCE_GROUP }} \
+                    --docker-custom-image-name ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+                    --docker-registry-server-url https://${{ env.REGISTRY_NAME }}.azurecr.io \
+                    --docker-registry-server-user ${{ secrets.AZURE_REGISTRY_USERNAME }} \
+                    --docker-registry-server-password ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+
+                  az webapp restart --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }}
