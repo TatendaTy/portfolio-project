@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: fantasyfootball-api-service
+    runtime: docker
+    repo: https://github.com/TatendaTy/portfolio-project
+    branch: main
+    dockerfilePath: ./chapter6/Dockerfile
+    dockerContext: ./chapter6
+    envVars:
+      - key: PORT
+        value: 80
+    autoDeploy: true
+    healthCheckPath: /
