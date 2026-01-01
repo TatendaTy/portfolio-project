@@ -39,19 +39,7 @@ jobs:
                       ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
                       ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-            - name: Azure CLI Login
-              uses: azure/login@v1
-              with:
-                  creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-            - name: Deploy Container to Azure Web App
+            - name: Configure ACR webhook to notify Web App
               run: |
-                  az webapp config container set \
-                    --name ${{ env.AZURE_WEBAPP_NAME }} \
-                    --resource-group ${{ env.RESOURCE_GROUP }} \
-                    --docker-custom-image-name ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
-                    --docker-registry-server-url https://${{ env.REGISTRY_NAME }}.azurecr.io \
-                    --docker-registry-server-user ${{ secrets.AZURE_REGISTRY_USERNAME }} \
-                    --docker-registry-server-password ${{ secrets.AZURE_REGISTRY_PASSWORD }}
-
-                  az webapp restart --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }}
+                  echo "Image pushed successfully. Azure Web App will pull the latest image automatically."
+                  echo "Image: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}"
