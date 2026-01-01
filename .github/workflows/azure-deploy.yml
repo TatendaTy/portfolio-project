@@ -1,47 +1,47 @@
 name: Deploy to Azure Web App
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'chapter6/**'
-  workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+            - "chapter6/**"
+    workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: azure-api-container
-  REGISTRY_NAME: apicontainerregistry
-  IMAGE_NAME: azure-api-container
-  RESOURCE_GROUP: SportsWorldCentral-Fantasy
+    AZURE_WEBAPP_NAME: azure-api-container
+    REGISTRY_NAME: apicontainerregistry
+    IMAGE_NAME: azure-api-container
+    RESOURCE_GROUP: SportsWorldCentral-Fantasy
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Log in to Azure Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ${{ env.REGISTRY_NAME }}.azurecr.io
-        username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
-        password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
-    
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: ./chapter6
-        file: ./chapter6/Dockerfile
-        push: true
-        tags: |
-          ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
-          ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
-    
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_CREDENTIALS }}
-        images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Log in to Azure Container Registry
+              uses: docker/login-action@v3
+              with:
+                  registry: ${{ env.REGISTRY_NAME }}.azurecr.io
+                  username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+                  password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+
+            - name: Build and push Docker image
+              uses: docker/build-push-action@v5
+              with:
+                  context: ./chapter6
+                  file: ./chapter6/Dockerfile
+                  push: true
+                  tags: |
+                      ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+                      ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+            - name: Deploy to Azure Web App
+              uses: azure/webapps-deploy@v3
+              with:
+                  app-name: ${{ env.AZURE_WEBAPP_NAME }}
+                  publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+                  images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
