@@ -131,7 +131,7 @@ with httpx.Client(base_url=self.swc_base_url) as client:
 
 ### Automated Deployment with GitHub Actions
 
-Every push to the `main` branch that includes changes to the `chapter6/` folder automatically:
+Every push to the `main` branch that includes changes to the `root` folder automatically:
 
 1. Builds a new Docker image
 2. Pushes it to Azure Container Registry
@@ -160,8 +160,8 @@ View deployment status in the [GitHub Actions tab](https://github.com/TatendaTy/
    - **Name**: `fantasyfootball-api-service`
    - **Environment**: `Docker`
    - **Branch**: `main`
-   - **Root Directory**: `chapter6`
-   - **Dockerfile Path**: `chapter6/Dockerfile`
+   - **Root Directory**: `.`
+   - **Dockerfile Path**: `Dockerfile`
 
 3. **Deploy**
    - Click **Create Web Service**
@@ -169,7 +169,7 @@ View deployment status in the [GitHub Actions tab](https://github.com/TatendaTy/
 
 ### Automated Deployment with Blueprint
 
-Using the `render.yaml` file in the `chapter6` folder:
+Using the `render.yaml` file in the root folder:
 
 1. **Create a Blueprint**
    - Go to [Render Dashboard](https://dashboard.render.com/)
