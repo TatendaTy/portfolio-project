@@ -4,8 +4,8 @@ services:
     runtime: docker
     repo: https://github.com/TatendaTy/portfolio-project
     branch: main
-    dockerfilePath: ./chapter6/Dockerfile
-    dockerContext: ./chapter6
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     envVars:
       - key: PORT
         value: 80
