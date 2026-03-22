@@ -1,7 +1,7 @@
 import pytest
-from swcpy import SWCClient
-from swcpy import SWCConfig
-from swcpy.schemas import League, Team, Player, Performance
+from swcpy import SWCClient # type: ignore
+from swcpy import SWCConfig # type: ignore
+from swcpy.schemas import League, Team, Player, Performance # type: ignore
 from io import BytesIO
 import pyarrow.parquet as pq
 import pandas as pd
