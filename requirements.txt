@@ -1,4 +1,4 @@
-#Chapter 4 pip requirements
+# app dependencies
 SQLAlchemy>=2.0.0
 pydantic>=2.4.0
 fastapi[standard]>=0.115.0
