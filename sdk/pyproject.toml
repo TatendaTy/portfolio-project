@@ -3,17 +3,18 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "swcpy"
-version = "0.0.2"
+name = "swcpy-tydennis0501"
+version = "0.0.3"
 authors = [
     { name="[Tatenda Kabanda]" },
     ]
-description = "An SDK for AI and Data Science on the SWC Platform"
+description = "An educational SDK for AI and Data Science on the SWC Platform"
+readme = "README.md"
+license = "MIT"
 requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [

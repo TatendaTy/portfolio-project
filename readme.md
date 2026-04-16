@@ -189,6 +189,26 @@ View your deployment at: [https://fantasyfootball-api-service-lmm2.onrender.com]
 
 ## Software Development Kit (SDK)
 
-If you are a Python user, you can use the swcpy SDK to interact with our API.
-Full information is available [here](sdk/README.md).
+If you are a Python user, you can use the SWC SDK to interact with our API.
+
+Install from PyPI:
+
+```bash
+python -m pip install swcpy-tydennis0501
+```
+
+Quick usage example:
+
+```python
+from swcpy import SWCClient, SWCConfig
+
+config = SWCConfig(
+   swc_base_url="https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net",
+   backoff=False,
+)
+client = SWCClient(config)
+print(client.get_health_check().json())
+```
+
+Full SDK documentation is available in [sdk/README.md](sdk/README.md).
 

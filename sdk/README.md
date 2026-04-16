@@ -1,55 +1,89 @@
-# swcpy software development kit (SDK)
-This is the Python SDK to interact with the SportsWorldCentral Football API.
+# swcpy Software Development Kit (SDK)
 
-## Installing swcpy
-To install this SDK in your environment, execute the following command:
-`pip install swcpy@git+https://github.com/tatendaty/portfolio-project#subdirectory=sdk`
+Python SDK for interacting with the SportsWorldCentral Fantasy Football API.
 
-## Example usage
-This SDK implements all the endpoints in the SWC API, in addition to providing bulk downloads of the SWC fantasy data in CSV format.
+## Install
 
-### Setting base URL for the API
-The SDK looks for a value of `SWC_API_BASE_URL` in the environment. The preferred method for setting the base URL for the SWC API is by creating a Python
-`.env` file in your project directory with the following value:
+Install from PyPI:
 
-```
-SWC_API_BASE_URL={URL of your API}
+```bash
+python -m pip install swcpy-tydennis0501
 ```
 
-You may also set this value as an environment variable in the environment you are using the SDK, or pass it as a parameter to the `SWCConfig()` method.
+Note: The distribution name on PyPI is `swcpy-tydennis0501`, but imports use `swcpy`.
 
-### Example of normal API functions
-To call the SDK functions for normal API endpoints, here is an example:
+## Configure Base URL
+
+Set your API base URL with an environment variable or pass it directly in `SWCConfig`.
+
+Example `.env` file:
+
+```env
+SWC_API_BASE_URL=https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net
+```
+
+## Quick Start
 
 ```python
-from swcpy import SWCClient
-from swcpy import SWCConfig
+from swcpy import SWCClient, SWCConfig
 
-config = SWCConfig(swc_base_url="http://0.0.0.0:8000",backoff=False)
+config = SWCConfig(
+    swc_base_url="https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net",
+    backoff=False,
+)
 client = SWCClient(config)
-leagues_response = client.list_leagues()
-print(leagues_response)
+
+health = client.get_health_check()
+print(health.json())
+
+leagues = client.list_leagues(limit=5)
+print(leagues)
 ```
 
-### Example of bulk data functions
+## Bulk File Download Example
 
-The build data endpoint returns a bytes object. Here is an example of saving a file locally from a bulk file endpoint:
+Bulk endpoints return bytes. Write them to disk as shown below:
 
 ```python
-import csv
-import os
-from io import StringIO
+from swcpy import SWCClient, SWCConfig
 
-config = SWCConfig()
-    client = SWCClient(config)
+config = SWCConfig(
+    swc_base_url="https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net"
+)
+client = SWCClient(config)
 
-    """Tests bulk player download through SDK"""
-    player_file = client.get_bulk_player_file()
-    
-    # Write the file to disk to verify file download
-    output_file_path = data_dir + 'players_file.csv'
-    with open(output_file_path, 'wb') as f:
-        f.write(player_file)
+player_file = client.get_bulk_player_file()
+
+with open("players_file.csv", "wb") as f:
+    f.write(player_file)
 ```
 
+## Common Methods
 
+- Health and analytics: `get_health_check()`, `get_counts()`
+- List endpoints: `list_leagues()`, `list_teams()`, `list_players()`, `list_performances()`
+- By ID endpoints: `get_league_by_id()`, `get_team_by_id()`, `get_player_by_id()`
+- Bulk downloads: `get_bulk_player_file()`, `get_bulk_league_file()`, `get_bulk_performance_file()`, `get_bulk_team_file()`, `get_bulk_team_player_file()`
+
+## Release Process
+
+1. Bump `version` in `pyproject.toml`.
+2. Build and validate distributions:
+
+```bash
+rm -rf dist build *.egg-info src/*.egg-info
+python -m build
+python -m twine check dist/*
+```
+
+3. Upload to TestPyPI:
+
+```bash
+python -m twine upload --repository testpypi dist/*
+```
+
+4. Upload to PyPI:
+
+```bash
+python -m twine upload dist/*
+```
