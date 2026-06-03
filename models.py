@@ -56,6 +56,8 @@ class Team(Base):
 
     # Many-to-many relationship between Team and Player tables
     players = relationship("Player", secondary="team_player", back_populates="teams")
+    
+    weekly_scores = relationship("TeamWeek", back_populates="team")
 
 
 class TeamPlayer(Base):
@@ -63,5 +65,33 @@ class TeamPlayer(Base):
 
     team_id = Column(Integer, ForeignKey("team.team_id"), primary_key=True, index=True)
     player_id = Column(Integer, ForeignKey("player.player_id"), primary_key=True, index=True)
+    last_changed_date = Column(Date, nullable=False)
+    
+class TeamWeek(Base):
+    __tablename__ = "team_week"
+
+    team_id = Column(Integer, ForeignKey("team.team_id"), primary_key=True, index=True)
+    week_number = Column(String, ForeignKey("week.week_number"), primary_key=True, index=True)
+    fantasy_points = Column(Float, nullable=False)
+    last_changed_date = Column(Date, nullable=False)    
+
+    team = relationship('Team', back_populates='weekly_scores')
+    
+class Week(Base):
+    __tablename__ = "week"
+
+    week_number = Column(String, primary_key=True, index=True)
+    ppr_8_max_points = Column(Float, nullable=False)
+    ppr_10_max_points = Column(Float, nullable=False)
+    ppr_12_max_points = Column(Float, nullable=False)
+    ppr_14_max_points = Column(Float, nullable=False)
+    half_ppr_8_max_points = Column(Float, nullable=False)
+    half_ppr_10_max_points = Column(Float, nullable=False)
+    half_ppr_12_max_points = Column(Float, nullable=False)
+    half_ppr_14_max_points = Column(Float, nullable=False)
+    std_8_max_points = Column(Float, nullable=False)
+    std_10_max_points = Column(Float, nullable=False)
+    std_12_max_points = Column(Float, nullable=False)
+    std_14_max_points = Column(Float, nullable=False)
     last_changed_date = Column(Date, nullable=False)
 

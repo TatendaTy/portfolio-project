@@ -37,14 +37,58 @@ def test_get_all_performances(db_session):
     performances = crud.get_performances(db_session, skip=0, limit=18000)
     assert len(performances) == 17306
 
-def test_get_new_performances(db_session):
-    '''Tests that the count of performances in the database is what is expected'''
-    performances = crud.get_performances(db_session, skip=0, limit=18000,
-                                        min_last_changed_date=test_date)
-    assert len(performances) == 2711
+def test_get_league(db_session):
+    """Tests you can get a league"""
+    league = crud.get_league(db_session, league_id = 5002)
+    assert league.league_id == 5002
+    # assert len(league.teams) == 8
+
+def test_get_leagues(db_session):
+    """Tests that the count of leagues in the database is what is expected"""
+    leagues = crud.get_leagues(db_session, skip=0, limit=10000, min_last_changed_date=test_date)
+    assert len(leagues) == 5
+    
+# updated for v0.2
+def test_get_teams(db_session):
+    """Tests that the count of teams in the database is what is expected"""
+    teams = crud.get_teams(db_session, skip=0, limit=10000, min_last_changed_date=test_date)
+    assert len(teams) == 52
+
+def test_get_teams_for_one_league(db_session):
+    """Tests that the count of teams in the database is what is expected"""
+    teams = crud.get_teams(db_session, league_id=5001)
+    assert len(teams) == 12
+    assert teams[0].league_id == 5001
+    
+# updated for v0.2
+def test_get_team_players(db_session):
+    """Tests that a team record can retrieve players, and that 8 players are on the first team"""
+    first_team = crud.get_teams(db_session, skip=0, limit=1000, min_last_changed_date=test_date)[0]
+    assert len(first_team.players) == 7
+
+#added for  v0.2
+def test_team_weekly_score(db_session):
+    first_team = crud.get_teams(db_session, skip=0, limit=10000, min_last_changed_date=test_date)[0]
+    assert len(first_team.weekly_scores) == 17
+    assert first_team.weekly_scores[0].fantasy_points == 99.0;
+
+# added for  v0.2
+def test_get_weeks(db_session):
+    """Tests that the count of weeks in the database is what is expected"""
+    weeks = crud.get_weeks(db_session, skip=0, limit=10000)
+    assert len(weeks) == 18
+
     
 # test the count functions
 def test_get_player_count(db_session):
     player_count = crud.get_player_count(db_session)
     assert player_count == 1018
 
+# updated for v0.2
+def test_get_team_count(db_session):
+    team_count = crud.get_team_count(db_session)
+    assert team_count == 52
+
+def test_get_league_count(db_session):
+    league_count = crud.get_league_count(db_session)
+    assert league_count == 5

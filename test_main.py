@@ -62,6 +62,17 @@ def test_read_teams_for_one_league():
     response = client.get("/v0/teams/?skip=0&limit=500&league_id=5001")
     assert response.status_code == 200
     assert len(response.json()) == 12
+    
+#v0.2 test added weeks object
+def test_read_one_team():
+    response = client.get("/v0/teams/?skip=0&limit=500&team_name=?skip=0&limit=100&team_name=Wallaby%20Stew")
+    assert response.status_code == 200
+    teams = response.json()
+    assert len(teams) == 1
+    my_team = teams[0]
+    assert my_team.get("team_name") == "Wallaby Stew"
+    assert len(my_team.get("weekly_scores")) == 17
+    assert len(my_team.get("players")) == 7
 
 # test the count functions
 def test_counts():
@@ -71,3 +82,9 @@ def test_counts():
     assert response_data.get("league_count") == 5
     assert response_data.get("team_count") == 20
     assert response_data.get("player_count") == 1018
+    
+#v0.2
+def test_read_weeks():
+    response = client.get("/v0/weeks/?skip=0&limit=1000")
+    assert response.status_code == 200
+    assert len(response.json()) == 18 #v0.2

@@ -50,6 +50,13 @@ def get_teams(db: Session, skip: int = 0, limit: int = 100, min_last_changed_dat
         query = query.filter(models.Team.league_id == league_id) # Filter by league_id if provided
     return query.offset(skip).limit(limit).all() # 
 
+#added for v0.2
+def get_weeks(db: Session, skip: int = 0, limit: int = 5000, min_last_changed_date: date = None):
+    query = db.query(models.Week)
+    if min_last_changed_date:
+        query = query.filter(models.Week.last_changed_date >= min_last_changed_date)
+    return query.offset(skip).limit(limit).all()
+
 # analytics queries
 def get_player_count(db: Session):
     query = db.query(models.Player)
@@ -63,3 +70,6 @@ def get_league_count(db: Session):
     query = db.query(models.League)
     return query.count()
 
+def get_week_count(db: Session):
+    query = db.query(models.Week)
+    return query.count()
