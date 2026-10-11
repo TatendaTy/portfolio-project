@@ -49,13 +49,18 @@ def test_read_leagues_with_id():
 def test_read_leagues():
     response = client.get("/v0/leagues/?skip=0&limit=500")
     assert response.status_code == 200
-    assert len(response.json()) == 5
+    leagues = response.json()
+    assert len(leagues) == 5
+    leagues_by_id = {league["league_id"]: league for league in leagues}
+    for league_id in (5003, 5004, 5005):
+        assert leagues_by_id[league_id]["league_size"] > 0
+        assert leagues_by_id[league_id]["teams"]
 
 # test /v0/teams/
 def test_read_teams():
     response = client.get("/v0/teams/?skip=0&limit=500")
     assert response.status_code == 200
-    assert len(response.json()) == 20
+    assert len(response.json()) == 52
 
 # test /v0/teams/
 def test_read_teams_for_one_league():
@@ -80,7 +85,7 @@ def test_counts():
     response_data = response.json()
     assert response.status_code == 200
     assert response_data.get("league_count") == 5
-    assert response_data.get("team_count") == 20
+    assert response_data.get("team_count") == 52
     assert response_data.get("player_count") == 1018
     assert response_data.get("week_count") == 18
     
