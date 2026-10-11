@@ -15,5 +15,5 @@ RUN pip3 install --no-cache-dir --upgrade -r requirements.txt
 COPY *.py /code/
 COPY *.db /code/
 
-# launch the uvicorn web server and run the Application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+# initialize the schema before starting the API
+CMD ["sh", "-c", "python init_db.py && exec uvicorn main:app --host 0.0.0.0 --port 80"]
