@@ -38,6 +38,7 @@ class League(Base):
     league_id = Column(Integer, primary_key=True, index=True)
     league_name = Column(String, nullable=False)
     scoring_type = Column(String, nullable=False)
+    league_size = Column(Integer, nullable=False)
     last_changed_date = Column(Date, nullable=False)
 
     teams = relationship("Team", back_populates="league")
@@ -54,7 +55,7 @@ class Team(Base):
 
     league = relationship("League", back_populates="teams")
 
-    # Many-to-many relationship between Team and Player tables
+    # Many-to-many relationship between Player and Team tables
     players = relationship("Player", secondary="team_player", back_populates="teams")
     
     weekly_scores = relationship("TeamWeek", back_populates="team")
