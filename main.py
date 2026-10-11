@@ -13,7 +13,7 @@ This API provides read-only access to info from the Sports World Central (SWC) F
 The endpoints are grouped into the following categories:
 
 ## Analytics
-Get information about health of the API and counts of leagues, teams, and players.
+Get information about health of the API and counts of leagues, teams, players, and weeks.
 
 ## Player
 You can get a list of an NFL players, or search for an individual player by player_id.
@@ -212,9 +212,9 @@ def read_teams(
 @app.get(
     "/v0/counts/",
     response_model=schemas.Counts,
-    summary="Get counts of the number of leagues, teams, and players in the SWC fantasy football",
-    description="""Use this endpoint to count the number of leagues, teams, and players in the SWC fantasy football. Use in combination with skip and limit in v0_get leagues, v0_get_teams, or v0_get_players. Use this endpoint to get counts instead of making calls to the other APIs.""",
-    response_description="A list of teams on the SWC fantasy football website.",
+    summary="Get counts of the number of leagues, teams, players, and weeks in the SWC fantasy football",
+    description="""Use this endpoint to count the number of leagues, teams, players, and weeks in the SWC fantasy football. Use in combination with skip and limit in v0_get leagues, v0_get_teams, or v0_get_players. Use this endpoint to get counts instead of making calls to the other APIs.""",
+    response_description="Counts of leagues, teams, players, and weeks in the SWC fantasy football.",
     operation_id="v0_get_counts",
     tags=["analytics"],
 )
@@ -223,6 +223,7 @@ def get_count(db: Session = Depends(get_db)):
         league_count=crud.get_league_count(db),
         team_count=crud.get_team_count(db),
         player_count=crud.get_player_count(db),
+        week_count=crud.get_week_count(db),
     )
     return counts
 
