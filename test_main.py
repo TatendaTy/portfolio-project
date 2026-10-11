@@ -60,7 +60,7 @@ def test_read_leagues():
 def test_read_teams():
     response = client.get("/v0/teams/?skip=0&limit=500")
     assert response.status_code == 200
-    assert len(response.json()) == 20
+    assert len(response.json()) == 52
 
 # test /v0/teams/
 def test_read_teams_for_one_league():
@@ -77,7 +77,7 @@ def test_read_one_team():
     my_team = teams[0]
     assert my_team.get("team_name") == "Wallaby Stew"
     assert len(my_team.get("weekly_scores")) == 17
-    assert len(my_team.get("players")) == 7
+    assert len(my_team.get("players")) == 7)
 
 # test the count functions
 def test_counts():
@@ -85,7 +85,7 @@ def test_counts():
     response_data = response.json()
     assert response.status_code == 200
     assert response_data.get("league_count") == 5
-    assert response_data.get("team_count") == 20
+    assert response_data.get("team_count") == 52
     assert response_data.get("player_count") == 1018
     assert response_data.get("week_count") == 18
     
