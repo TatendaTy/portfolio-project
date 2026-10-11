@@ -77,7 +77,7 @@ def test_read_one_team():
     my_team = teams[0]
     assert my_team.get("team_name") == "Wallaby Stew"
     assert len(my_team.get("weekly_scores")) == 17
-    assert len(my_team.get("players")) == 7)
+    assert len(my_team.get("players")) == 7
 
 # test the count functions
 def test_counts():
