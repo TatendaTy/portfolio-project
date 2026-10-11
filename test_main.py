@@ -82,6 +82,7 @@ def test_counts():
     assert response_data.get("league_count") == 5
     assert response_data.get("team_count") == 20
     assert response_data.get("player_count") == 1018
+    assert response_data.get("week_count") == 18
     
 #v0.2
 def test_read_weeks():
