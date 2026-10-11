@@ -32,7 +32,7 @@ class TeamBase(BaseModel):
     last_changed_date : date
 
 class League(BaseModel):
-    model_config = ConfigDict(from_attributess=True)
+    model_config = ConfigDict(from_attributes=True)
     league_id : int
     league_name : str
     scoring_type: str
@@ -76,4 +76,3 @@ class Counts(BaseModel):
     team_count : int
     player_count : int
     week_count : int #v0.2
-
