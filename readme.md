@@ -22,18 +22,11 @@ Thanks for using the SportsWorldCentral API. This is your one-stop shop for acce
 
 ## Public API
 
-Our API is deployed on multiple platforms:
+The API is deployed on Render platforms:
 
-**Azure Web App:**
-- API: [https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net/](https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net/)
-- Interactive Docs: [https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net/docs](https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net/docs)
-- OpenAPI Spec: [https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net/openapi.json](https://azure-api-container-hfa4e5dbfehtaad5.eastus-01.azurewebsites.net/openapi.json)
-
-**Render:**
 - API: [https://fantasyfootball-api-service-lmm2.onrender.com](https://fantasyfootball-api-service-lmm2.onrender.com)
 - Interactive Docs: [https://fantasyfootball-api-service-lmm2.onrender.com/docs](https://fantasyfootball-api-service-lmm2.onrender.com/docs)
 - OpenAPI Spec: [https://fantasyfootball-api-service-lmm2.onrender.com/openapi.json](https://fantasyfootball-api-service-lmm2.onrender.com/openapi.json)
-
 
 ## Getting Started
 
@@ -211,4 +204,3 @@ print(client.get_health_check().json())
 ```
 
 Full SDK documentation is available in [sdk/README.md](sdk/README.md).
-
